@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html ng-app="App">
+<head>
+<title>JMX GUI</title>
+<script src="js/angular.js"></script>
+<script src="js/jmx-gui.js"></script>
+<body ng-controller="JMXController">
+	<h2>Hello World!</h2>
+	<button ng-click="list(serverUrl)">LIST</button>
+
+
+
+	<!-- <p ng-repeat="(key, val) in jsonData.value"> -->
+	<!-- <br> -->
+	<!-- 1111111111 {{key}}:{{val}} -->
+	<!-- <p ng-repeat="(key2, val2) in val"> -->
+	<!-- <br> -->
+	<!-- 2222222222 {{key2}}:{{val2}} -->
+
+	<!-- <p ng-repeat="(key3, val3) in val2"> -->
+	<!-- <br> -->
+	<!-- 3333333333 {{key3}}:{{val3} -->
+
+	<!-- </p> -->
+	<!-- </p> -->
+
+
+	<!-- </p> -->
+	<!-- 	aaaaaaaaaaa -->
+	<!-- 	<p ng-repeat="mBean in mbeans">{{mBean.desc}} -->
+	<!-- 	<p /> -->
+
+	<table border="1">
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+			<th>Attributes</th>
+			<th>Operations</th>
+		</tr>
+		<tr ng-repeat="mBean in mbeans">
+			<td>{{mBean.name}}</td>
+			<td>{{mBean.desc}}</td>
+			<td>
+				<table  border="1" width="100%" height="100%">
+					<tr ng-repeat="(key, val) in mBean.attr">
+						<td ng-click="readAttributeMbean(serverUrl,$parent.mBean, key, displayResult)">{{key}}</td>
+						<td>{{val}}</td>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<table  border="1" width="100%" height="100%">
+					<tr ng-repeat="(key, val) in mBean.op">
+						<td ng-click="executeOpMbean(serverUrl,$parent.mBean, key, displayResult)">{{key}}</td>
+						<td>{{val}}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+<!-- 	<table border="1"> -->
+<!-- 		<tr ng-repeat="(key, val) in jsonData.value"> -->
+<!-- 			<td>{{key}}</td> -->
+<!-- 			<td> -->
+<!-- 				<table border="1"> -->
+<!-- 					<tr ng-repeat="(key, val) in val"> -->
+<!-- 						<td>{{key}}</td> -->
+<!-- 						<td> -->
+<!-- 							<table border="1"> -->
+<!-- 								<tr ng-repeat="(key, val) in val"> -->
+<!-- 									<td>{{key}}:{{val}}</td> -->
+<!-- 								</tr> -->
+<!-- 							</table> -->
+<!-- 					</tr> -->
+<!-- 				</table> -->
+<!-- 			</td> -->
+<!-- 		</tr> -->
+<!-- 	</table> -->
+	<!-- 	<table> -->
+	<!-- 		<tr ng-repeat="(key, val) in jsonData.value"> -->
+	<!-- 			<td>{{key}}:{{val}}</td> -->
+	<!-- 			<td ng-repeat="(key2, val2) in val">{{key2}}:{{ val2 }} -->
+
+
+	<!-- 			</td> -->
+	<!-- 			<td ng-repeat="(key2, val2) in val">{{key2}}:{{ val2 }}</td> -->
+
+	<!-- 		</tr> -->
+	<!-- 	</table> -->
+</body>
+</html>
