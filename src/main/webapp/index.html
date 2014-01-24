@@ -4,94 +4,68 @@
 <title>JMX GUI</title>
 <script src="js/angular.js"></script>
 <script src="js/jmx-gui.js"></script>
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+<link
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"
+	rel="stylesheet">
 <body ng-controller="JMXController">
 	<h2>JMX GUI</h2>
 	Choose a server:
-	<input ng-model="serverUrl"/>
+	<input ng-model="serverUrl" />
 	<button ng-click="list(serverUrl)">LIST</button>
 
-<p>
-Search MBean: <input ng-model="searchMBeanText">
-</p>
+	<p>
+		Search MBean: <input ng-model="searchMBeanText">
+	</p>
 
 
-	<!-- <p ng-repeat="(key, val) in jsonData.value"> -->
-	<!-- <br> -->
-	<!-- 1111111111 {{key}}:{{val}} -->
-	<!-- <p ng-repeat="(key2, val2) in val"> -->
-	<!-- <br> -->
-	<!-- 2222222222 {{key2}}:{{val2}} -->
-
-	<!-- <p ng-repeat="(key3, val3) in val2"> -->
-	<!-- <br> -->
-	<!-- 3333333333 {{key3}}:{{val3} -->
-
-	<!-- </p> -->
-	<!-- </p> -->
-
-
-	<!-- </p> -->
-	<!-- 	aaaaaaaaaaa -->
-	<!-- 	<p ng-repeat="mBean in mbeans">{{mBean.desc}} -->
-	<!-- 	<p /> -->
-
-	<table border="1">		
-		<tr ng-repeat="mBean in mbeans | filter:searchMBeanText">			
+	<table border="1" class="table">
+		<tr ng-repeat="mBean in mbeans | filter:searchMBeanText">
 			<td>
-				<table  border="1" width="100%" height="100%">
+				<table border="1" width="100%" height="100%" class="table">
 					<tr>
-						<td colspan=2 ng-click="readAllAttributesMbean(serverUrl,mBean, displayAttributesFromMBeanResponse)"><b>{{mBean.name}} - {{mBean.desc}}</b></td>											
-					</tr>
-					<tr>
-						<td colspan=2 ng-click="calculateAllAttributesMBean(serverUrl,mBean)">ATTRIBUTES<button>Refresh</button></td>
-					</tr>
-					<tr ng-repeat="(key, val) in mBean.attr">
-						<td ng-click="readAttributeMbean(serverUrl,$parent.mBean, key, displayResult)">{{key}}</td>
-						<td>{{val.currentValue}}</td>						
+						<td colspan=2><b>{{mBean.name}}</b> {{mBean.desc}}</td>
 					</tr>
 					<tr>
-						<td colspan=2 >OPERATIONS</td>
+						<td colspan=2>
+
+							<table border="1" width="100%" height="100%" class="table">
+								<tr>
+									<th colspan=2
+										ng-click="calculateAllAttributesMBean(serverUrl,mBean)">ATTRIBUTES
+										<a href="#" class="btn btn-success btn-large"><i
+											class="icon-white icon-refresh"></i> Refresh</a>
+									</th>
+								</tr>
+								<tr ng-repeat="(key, val) in mBean.attr">
+									<td
+										ng-click="readAttributeMbean(serverUrl,$parent.mBean, key, displayResult)">{{key}}</td>
+									<td>{{val.currentValue}}</td>
+								</tr>
+
+								
+							</table>
+						</td>
 					</tr>
-					
-					<tr ng-repeat="(key, val) in mBean.op">
-						<td ng-click="executeOpMbean(serverUrl,$parent.mBean, key, displayResult)">{{key}}</td>
-						<td>{{val}}</td>
+					<tr>
+						<td colspan=2>
+							<table border="1" width="100%" height="100%" class="table">
+			
+								<tr>
+									<th colspan=2>OPERATIONS</th>
+								</tr>
+
+								<tr ng-repeat="(key, val) in mBean.op">
+									<td
+										ng-click="executeOpMbean(serverUrl,$parent.mBean, key, displayResult)">{{key}}
+									</td>
+									<td>{{val}}</td>
+								</tr>
+							</table>
+						</td>
 					</tr>
 				</table>
 			</td>
 		</tr>
 	</table>
-	
-
-<!-- 	<table border="1"> -->
-<!-- 		<tr ng-repeat="(key, val) in jsonData.value"> -->
-<!-- 			<td>{{key}}</td> -->
-<!-- 			<td> -->
-<!-- 				<table border="1"> -->
-<!-- 					<tr ng-repeat="(key, val) in val"> -->
-<!-- 						<td>{{key}}</td> -->
-<!-- 						<td> -->
-<!-- 							<table border="1"> -->
-<!-- 								<tr ng-repeat="(key, val) in val"> -->
-<!-- 									<td>{{key}}:{{val}}</td> -->
-<!-- 								</tr> -->
-<!-- 							</table> -->
-<!-- 					</tr> -->
-<!-- 				</table> -->
-<!-- 			</td> -->
-<!-- 		</tr> -->
-<!-- 	</table> -->
-	<!-- 	<table> -->
-	<!-- 		<tr ng-repeat="(key, val) in jsonData.value"> -->
-	<!-- 			<td>{{key}}:{{val}}</td> -->
-	<!-- 			<td ng-repeat="(key2, val2) in val">{{key2}}:{{ val2 }} -->
-
-
-	<!-- 			</td> -->
-	<!-- 			<td ng-repeat="(key2, val2) in val">{{key2}}:{{ val2 }}</td> -->
-
-	<!-- 		</tr> -->
-	<!-- 	</table> -->
 </body>
 </html>
