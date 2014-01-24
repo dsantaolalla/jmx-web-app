@@ -4,6 +4,7 @@
 <title>JMX GUI</title>
 <script src="js/angular.js"></script>
 <script src="js/jmx-gui.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
 <body ng-controller="JMXController">
 	<h2>JMX GUI</h2>
 	Choose a server:
@@ -11,8 +12,9 @@
 	<button ng-click="list(serverUrl)">LIST</button>
 
 <p>
-Search: <input ng-model="searchText">
+Search MBean: <input ng-model="searchMBeanText">
 </p>
+
 
 	<!-- <p ng-repeat="(key, val) in jsonData.value"> -->
 	<!-- <br> -->
@@ -34,26 +36,24 @@ Search: <input ng-model="searchText">
 	<!-- 	<p ng-repeat="mBean in mbeans">{{mBean.desc}} -->
 	<!-- 	<p /> -->
 
-	<table border="1">
-		<tr>
-			<th>Name</th>
-			<th>Description</th>
-			<th>Attributes</th>
-			<th>Operations</th>
-		</tr>
-		<tr ng-repeat="mBean in mbeans | filter:searchText">
-			<td>{{mBean.name}}</td>
-			<td>{{mBean.desc}}</td>
+	<table border="1">		
+		<tr ng-repeat="mBean in mbeans | filter:searchMBeanText">			
 			<td>
 				<table  border="1" width="100%" height="100%">
+					<tr>
+						<td colspan=2 ng-click="readAllAttributesMbean(serverUrl,mBean, displayAttributesFromMBeanResponse)"><b>{{mBean.name}} - {{mBean.desc}}</b></td>											
+					</tr>
+					<tr>
+						<td colspan=2 ng-click="calculateAllAttributesMBean(serverUrl,mBean)">ATTRIBUTES<button>Refresh</button></td>
+					</tr>
 					<tr ng-repeat="(key, val) in mBean.attr">
 						<td ng-click="readAttributeMbean(serverUrl,$parent.mBean, key, displayResult)">{{key}}</td>
-						<td>{{val}}</td>
+						<td>{{val.currentValue}}</td>						
 					</tr>
-				</table>
-			</td>
-			<td>
-				<table  border="1" width="100%" height="100%">
+					<tr>
+						<td colspan=2 >OPERATIONS</td>
+					</tr>
+					
 					<tr ng-repeat="(key, val) in mBean.op">
 						<td ng-click="executeOpMbean(serverUrl,$parent.mBean, key, displayResult)">{{key}}</td>
 						<td>{{val}}</td>
@@ -62,6 +62,7 @@ Search: <input ng-model="searchText">
 			</td>
 		</tr>
 	</table>
+	
 
 <!-- 	<table border="1"> -->
 <!-- 		<tr ng-repeat="(key, val) in jsonData.value"> -->

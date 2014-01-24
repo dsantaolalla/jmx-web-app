@@ -13,8 +13,7 @@ angular.module('SharedServices', [])
                 $rootScope.$$childTail.loading = false;   
                 return response;
 
-            }, function (response) {
-
+            }, function (response) {            	
                 // hide the spinner on error too
                 $rootScope.$$childTail.loading = false;   
                 return $q.reject(response);
@@ -28,16 +27,17 @@ var App = angular.module('App', ['SharedServices']);
 App.controller('JMXController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
         
 	$scope.serverUrl = 'http://localhost:8778';
-	
+	        
     $scope.list = function(serverUrl) {
-    	console.log(serverUrl)
+    	console.log(serverUrl);
 
         $http.get(serverUrl + '/jolokia/list')
-            .then(function (res) {
+            .then(function (res, status) {
                 $scope.jsonData = res.data;
                 $scope.calculateMBeans();
-            }).error($scope.displayError);
-    }      
+            }, $scope.displayError);
+    };      
+    
     
     $scope.mbeans = new Array(); 
     	
@@ -54,9 +54,18 @@ App.controller('JMXController', ['$scope', '$http', '$timeout', function($scope,
     	
     };
     
+    $scope.calculateAllAttributesMBean = function(serverUrl, mBean) {
+    	$scope.readAllAttributesMbean(serverUrl, mBean
+   			 , function (response) {
+    		for (attribute in response.data.value) {     		
+    			mBean.attr[attribute].currentValue = response.data.value[attribute];
+    		}
+        });
+    };
+    
     $scope.readAttributeMbean = function(serverUrl, mBean, attribute, callback) {
         $http.get(serverUrl + '/jolokia/read/'+mBean.name+'/'+attribute)
-            .success(callback).error( $scope.displayError);
+            .then(callback, $scope.displayError);
     };
     
     $scope.executeOpMbean = function(serverUrl, mBean, op, callback) {
@@ -65,6 +74,11 @@ App.controller('JMXController', ['$scope', '$http', '$timeout', function($scope,
             	if("error_type" in res.data) $scope.displayJMXError(res); 
             	else $scope.displayResult(res);
             });
+    };
+    
+    $scope.readAllAttributesMbean = function(serverUrl, mBean, callback) {
+        $http.get(serverUrl + '/jolokia/read/'+mBean.name)
+            .then(callback, $scope.displayError);
     };
     
     $scope.displayResult = function (res) {
@@ -80,4 +94,10 @@ App.controller('JMXController', ['$scope', '$http', '$timeout', function($scope,
     	alert('Error type: ' + res.data.error_type + '\nError:'+res.data.error);
 
     };
+    
+    $scope.displayAttributesFromMBeanResponse = function (res) {
+    	alert('Returned Values: ' + res.data.value);
+    };
+    
+    
 }]);
