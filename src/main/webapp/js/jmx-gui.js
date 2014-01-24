@@ -36,7 +36,7 @@ App.controller('JMXController', ['$scope', '$http', '$timeout', function($scope,
             .then(function (res) {
                 $scope.jsonData = res.data;
                 $scope.calculateMBeans();
-            });
+            }).error($scope.displayError);
     }      
     
     $scope.mbeans = new Array(); 
@@ -56,7 +56,7 @@ App.controller('JMXController', ['$scope', '$http', '$timeout', function($scope,
     
     $scope.readAttributeMbean = function(serverUrl, mBean, attribute, callback) {
         $http.get(serverUrl + '/jolokia/read/'+mBean.name+'/'+attribute)
-            .then(callback).error( $scope.displayError);
+            .success(callback).error( $scope.displayError);
     };
     
     $scope.executeOpMbean = function(serverUrl, mBean, op, callback) {
@@ -73,7 +73,7 @@ App.controller('JMXController', ['$scope', '$http', '$timeout', function($scope,
     };
     
     $scope.displayError = function(data, status, headers, config) {
-    	alert('Error! ' + res.data.value);
+    	alert('Error! ' + data);
     };
     
     $scope.displayJMXError = function (res) {

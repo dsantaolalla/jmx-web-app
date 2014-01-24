@@ -5,10 +5,14 @@
 <script src="js/angular.js"></script>
 <script src="js/jmx-gui.js"></script>
 <body ng-controller="JMXController">
-	<h2>Hello World!</h2>
+	<h2>JMX GUI</h2>
+	Choose a server:
+	<input ng-model="serverUrl"/>
 	<button ng-click="list(serverUrl)">LIST</button>
 
-
+<p>
+Search: <input ng-model="searchText">
+</p>
 
 	<!-- <p ng-repeat="(key, val) in jsonData.value"> -->
 	<!-- <br> -->
@@ -37,7 +41,7 @@
 			<th>Attributes</th>
 			<th>Operations</th>
 		</tr>
-		<tr ng-repeat="mBean in mbeans">
+		<tr ng-repeat="mBean in mbeans | filter:searchText">
 			<td>{{mBean.name}}</td>
 			<td>{{mBean.desc}}</td>
 			<td>
