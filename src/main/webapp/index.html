@@ -16,8 +16,7 @@
 
 	<form class="form-horizontal" role="form">
 		<div class="form-group">
-			<label class="col-sm-2 control-label">Server
-				Url</label>
+			<label class="col-sm-2 control-label">Server Url</label>
 			<div class="col-sm-10">
 
 				<div class="input-group">
@@ -31,8 +30,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-2 control-label">Filter
-				MBeans</label>
+			<label class="col-sm-2 control-label">Filter MBeans</label>
 			<div class="col-sm-10">
 				<div class="input-group">
 					<input type="text" class="form-control" ng-model="searchMBeanText">
@@ -44,7 +42,7 @@
 
 
 
-	<table border="1" class="table">
+	<table border="1" class="table table-striped">
 		<tr ng-repeat="mBean in mbeans | filter:searchMBeanText">
 			<td>
 				<table border="1" width="100%" height="100%" class="table">
@@ -80,14 +78,32 @@
 							<table border="1" width="100%" height="100%" class="table">
 
 								<tr>
-									<th colspan=2>Operations</th>
+									<th colspan=3>Operations</th>
 								</tr>
 
 								<tr ng-repeat="(key, val) in mBean.op">
 									<td
 										ng-click="executeOpMbean(serverUrl,$parent.mBean, key, displayResult)">{{key}}
 									</td>
-									<td>{{val}}</td>
+									<td>
+										<div ng-repeat="arg in val.args" class="form-group">
+											<label class="col-sm-2 control-label">{{arg.name}}</label>											
+											<div class="col-sm-10">
+												<div class="input-group">
+												<span class="input-group-addon">{{arg.type}}</span>
+													<input type="text" class="form-control"
+														ng-model="arg.value"> 
+												</div>
+
+											</div>
+										</div>
+
+
+
+										<button type="button" class="btn btn-default btn-sm"
+											ng-click="executeOpMbean(serverUrl,$parent.mBean, key, addOpResult)">Run</button>
+									</td>
+									<td>{{val.retValue}}</td>
 								</tr>
 							</table>
 						</td>
