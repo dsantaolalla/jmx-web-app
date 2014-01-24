@@ -9,13 +9,39 @@
 	rel="stylesheet">
 <body ng-controller="JMXController">
 	<h2>JMX GUI</h2>
-	Choose a server:
-	<input ng-model="serverUrl" />
-	<button ng-click="list(serverUrl)">LIST</button>
 
-	<p>
-		Search MBean: <input ng-model="searchMBeanText">
-	</p>
+
+
+
+
+	<form class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Server
+				Url</label>
+			<div class="col-sm-10">
+
+				<div class="input-group">
+					<input type="text" class="form-control" ng-model="serverUrl">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button"
+							ng-click="list(serverUrl)">List MBeans</button>
+					</span>
+				</div>
+
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Filter
+				MBeans</label>
+			<div class="col-sm-10">
+				<div class="input-group">
+					<input type="text" class="form-control" ng-model="searchMBeanText">
+				</div>
+			</div>
+		</div>
+
+	</form>
+
 
 
 	<table border="1" class="table">
@@ -30,10 +56,13 @@
 
 							<table border="1" width="100%" height="100%" class="table">
 								<tr>
-									<th colspan=2
-										ng-click="calculateAllAttributesMBean(serverUrl,mBean)">ATTRIBUTES
-										<a href="#" class="btn btn-success btn-large"><i
-											class="icon-white icon-refresh"></i> Refresh</a>
+									<th colspan=2>Attributes
+
+										<button type="button" class="btn btn-default btn-sm"
+											ng-click="calculateAllAttributesMBean(serverUrl,mBean)">
+											<span class="glyphicon glyphicon-refresh"></span> <span
+												class="glyphicon-class">Retrieve values</span>
+										</button>
 									</th>
 								</tr>
 								<tr ng-repeat="(key, val) in mBean.attr">
@@ -42,16 +71,16 @@
 									<td>{{val.currentValue}}</td>
 								</tr>
 
-								
+
 							</table>
 						</td>
 					</tr>
 					<tr>
 						<td colspan=2>
 							<table border="1" width="100%" height="100%" class="table">
-			
+
 								<tr>
-									<th colspan=2>OPERATIONS</th>
+									<th colspan=2>Operations</th>
 								</tr>
 
 								<tr ng-repeat="(key, val) in mBean.op">
