@@ -69,12 +69,21 @@ App.controller('JMXController', ['$scope', '$http', '$timeout', function($scope,
     };
     
     $scope.executeOpMbean = function(serverUrl, mBean, op, callback) {
-        $http.get(serverUrl + '/jolokia/exec/'+mBean.name+'/'+op)
+        $http.get(serverUrl + '/jolokia/exec/'+mBean.name+'/'+op + $scope.buildArgsString(mBean.op[op].args))
             .then(function(res) {
             	if("error_type" in res.data) $scope.displayJMXError(res); 
             	else callback(res, mBean);
             });
     };
+
+    $scope.buildArgsString = function(args) {
+		console.log(args);
+	var argsString = '';
+	for (key in args) {  
+    		argsString = argsString + '/' + args[key].value;
+    	}
+	return argsString;
+    }
     
     $scope.readAllAttributesMbean = function(serverUrl, mBean, callback) {
         $http.get(serverUrl + '/jolokia/read/'+mBean.name)
