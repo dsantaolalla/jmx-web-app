@@ -7,6 +7,10 @@
 <link
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"
 	rel="stylesheet">
+	<link
+	href="css/styles.css"
+	rel="stylesheet">
+	
 <body ng-controller="JMXController">
 	<h2>JMX GUI</h2>
 
@@ -82,8 +86,8 @@
 								</tr>
 
 								<tr ng-repeat="(key, val) in mBean.op">
-									<td
-										ng-click="executeOpMbean(serverUrl,$parent.mBean, key, displayResult)">{{key}}
+									<td >									
+									{{key}}
 									</td>
 									<td>
 										<div ng-repeat="arg in val.args" class="form-group">
@@ -97,11 +101,16 @@
 
 											</div>
 										</div>
+										
+										
 
 
 
 										<button type="button" class="btn btn-default btn-sm"
-											ng-click="executeOpMbean(serverUrl,$parent.mBean, key, addOpResult)">Run</button>
+											ng-click="executeOpMbean(serverUrl,$parent.mBean, key, addOpResult)"
+											ng-disabled="val.busy">
+											
+											Run</button>
 									</td>
 									<td>{{val.retValue}}</td>
 								</tr>
