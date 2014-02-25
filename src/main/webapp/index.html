@@ -110,7 +110,8 @@
 											ng-click="executeOpMbean(serverUrl,$parent.mBean, key, addOpResult)"
 											ng-disabled="val.busy">
 											
-											Run</button>
+											Run <span ng-show="val.busy" class="glyphicon glyphicon-transfer"></span></button>
+											
 									</td>
 									<td>{{val.retValue}}</td>
 								</tr>
